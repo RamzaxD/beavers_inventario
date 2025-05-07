@@ -38,12 +38,12 @@ public class RolesControlador {
         return this.rolesServicio.postUsuario(rol);
     }
   
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{idRol}")
     public Optional<RolesModelo> getById(@PathVariable("idRol") Long idRol) {
         return this.rolesServicio.getById(idRol);
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{idRol}")
     public RolesModelo updateRol(@PathVariable("idRol") Long idRol, @RequestBody RolesModelo request) {
     return this.rolesServicio.updateRol(request, idRol);
 }
