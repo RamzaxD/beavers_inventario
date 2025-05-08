@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react"
 import InventarioForm from "./InventarioForm"
 import type { Producto } from "./intentario.interface"
-import { getHttp, putHttp } from "../../services/api"
+import { getHttp, postHttp, putHttp } from "../../services/api"
 
 export const Inventario = () =>{
     const [productos, setProductos] = useState<Producto[]>([])
 
-    const productoNuevo = (nuevoProducto: Producto) => {
-      const isDuplicate = productos.some(producto => producto.idProducto === nuevoProducto.idProducto)
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-      if (isDuplicate) {
-        console.log('product is already in list');
-        // Optionally, you could show an error message to the user
-
+    const productoNuevo = async (nuevoProducto: Omit<Producto, 'idProducto'>) => {
+      setIsSubmitting(true);
+      try {
+        const productoGuardado = await postHttp(nuevoProducto);
+        setProductos(prev => [...prev, productoGuardado]);
+      } catch (error) {
+        console.error('Error al guardar el producto:', error);
+        throw error;
+      } finally {
+        setIsSubmitting(false);
       }
-      else{
-        setProductos([...productos, nuevoProducto])
-      }
-    } 
-    
+    };
 
       const [loading, setLoading] = useState<boolean>(true);
       const [error, setError] = useState<string | null>(null);
@@ -119,7 +120,10 @@ export const Inventario = () =>{
 
     return (
         <div className="mx-auto mt-12">
-            <InventarioForm productoNuevo={(value) => productoNuevo(value)}/>
+            <InventarioForm 
+              productoNuevo={productoNuevo}
+              isSubmitting={isSubmitting}
+            />
             <table className="table-auto w-full">
                 <thead className="bg-gray-800 text-white">
                     <tr>

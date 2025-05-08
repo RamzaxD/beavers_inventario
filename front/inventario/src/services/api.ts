@@ -1,5 +1,6 @@
 // src/services/api.ts
 import axios from 'axios';
+import type { Producto } from '../pages/inventario/intentario.interface';
 
 const api = axios.create({
   baseURL: 'http://localhost:4000', // URL de tu backend
@@ -31,5 +32,15 @@ export const putHttp = async (
     console.error(`Error al actualizar ${datoEditar.tipo}:`, error);
     throw error;
   }
+
 };
 
+export const postHttp = async (nuevoProducto: Omit<Producto, 'idProducto'>) => {
+  try {
+    const response = await api.post('/productos', nuevoProducto);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear producto:', error);
+    throw error;
+  }
+};

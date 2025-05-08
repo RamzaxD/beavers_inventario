@@ -1,37 +1,54 @@
 import { useForm } from "react-hook-form";
 import type { Producto } from "./intentario.interface";
 
+export default function InventarioForm({ 
+  productoNuevo,
+  isSubmitting 
+}: { 
+  productoNuevo: (value: Omit<Producto, 'idProducto'>) => Promise<void>,
+  isSubmitting: boolean
+}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-export default function InventarioForm( {productoNuevo} : {productoNuevo: (value: Producto) => void}) {
+  const onSubmit = handleSubmit(async (data) => {
+    const productoData = {
+      nombreProducto: data.nombreProducto,
+      cantidad: 0,       // Valor fijo
+      estado: false     // Valor fijo
+    };
     
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-      } = useForm();
+    await productoNuevo(productoData);
+    reset();
+  });
 
-      const onSubmit = handleSubmit(data => {
-        const dataForm:Producto = {
-            idProducto: 0,
-            nombreProducto: data.Producto,
-            cantidad:       0,
-            estado:         false,
-        }
-        productoNuevo(dataForm)
-      })
-    
-      return (
-        <form onSubmit={onSubmit}>
-          <input {...register('Producto', { required: true })} 
-                className="ml-4 mb-4"
-                placeholder="Producto"
+  return (
+    <form onSubmit={onSubmit} className="mb-6 p-4 bg-gray-100 rounded">
+      <div className="flex items-center gap-4">
+        <div>
+          <input
+            {...register('nombreProducto', { required: true })}
+            className="p-2 border rounded"
+            placeholder="Nombre del producto"
+            disabled={isSubmitting}
           />
-          {errors.lastName && <p>Nombre del producto es requerido.</p>}
-          <button
-                type="submit"
-                className="bg-blue-300 hover:bg-black hover:text-white text-black font-bold py-2 px-3 rounded-full mt-4">
-                Agregar
-           </button>
-        </form>
-      );
+          {errors.nombreProducto && (
+            <p className="text-red-500 text-sm">Nombre es requerido</p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Enviando...' : 'Agregar Producto'}
+        </button>
+      </div>
+    </form>
+  );
 }
