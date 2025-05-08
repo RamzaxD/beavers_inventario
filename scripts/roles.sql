@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `inventario`.`roles` (
+  `id_rol` BIGINT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(100) NULL DEFAULT NULL,
+  `nombre_rol` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id_rol`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci
