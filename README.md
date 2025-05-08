@@ -1,6 +1,10 @@
-# beavers_inventario
+# beavers_inventario: Arevalo Vaca Brayan Israel.
 Prueba tecnica con: MySQL + SpringBoot + ReactTs
 
+# Documentos:
+Queda adjunto los archivos de las base de datos en la carpeta de scripts junto con el archivo word del punto 1 SQL: Cuestionario y ejercicios de las tablas.
+
+# Instalacion
 • IDE utilizado: Microsoft Visual Studio
 • Lenguaje de Programacion (Backend): JAVA 21.0.7 2025-04-15 LTS
 • Lenguaje de Programacion (FRONTEND): REACT 19.1.2 / TypeScript 5.8.3
